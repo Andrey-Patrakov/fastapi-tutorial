@@ -1,12 +1,15 @@
 from fastapi import FastAPI
 from utils import json_to_dict_list
+from .models import Student
 import os
+from typing import List
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(script_dir)
 path_to_json = os.path.join(parent_dir, 'students.json')
 
 
+# uvicorn app.main:app --reload
 app = FastAPI()
 
 
@@ -26,20 +29,17 @@ def get_student(student_id: int):
 
 
 @app.get('/student')
-def get_student_param(student_id: int | None = None):
+def get_student_param(student_id: int) -> Student:
     students = json_to_dict_list(path_to_json)
-    if student_id is None:
-        return []
-
     for student in students:
         if student['student_id'] == student_id:
-            return [student,]
+            return student
 
-    return []
+    return None
 
 
 @app.get('/students')
-def get_all_students(course: int | None = None):
+def get_all_students(course: int | None = None) -> List[Student]:
     students = json_to_dict_list(path_to_json)
     if course is None:
         return students
@@ -55,7 +55,7 @@ def get_all_students(course: int | None = None):
 @app.get('/students/{course}')
 def get_all_students_course(course: int,
                             major: str | None = None,
-                            enrollment_year: int = None):
+                            enrollment_year: int = None) -> List[Student]:
     students = json_to_dict_list(path_to_json)
     return_list = []
     for student in students:
