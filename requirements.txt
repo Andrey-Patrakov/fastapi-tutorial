@@ -1,3 +1,7 @@
 fastapi[all]
 requests
 pydantic==2.0.3
+alembic
+asyncpg
+sqlalchemy
+pydantic-settings
