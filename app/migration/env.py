@@ -13,7 +13,8 @@ from os.path import dirname, abspath
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
 from app.database import DATABASE_URL, Base # noqa
-from app.students.models import Student, Major # noqa
+from app.students.models import Student # noqa
+from app.majors.models import Major # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
